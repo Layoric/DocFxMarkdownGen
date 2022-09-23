@@ -70,77 +70,14 @@ await Parallel.ForEachAsync(items, async (kvp, _) =>
 
 #endregion
 
-// util methods
-Item[] GetProperties(string uid)
-    => items.Values.Where(i => i.Parent == uid && i.Type == "Property").ToArray();
-
-Item[] GetFields(string uid)
-    => items.Values.Where(i => i.Parent == uid && i.Type == "Field").ToArray();
-
-Item[] GetMethods(string uid)
-    => items.Values.Where(i => i.Parent == uid && i.Type == "Method").ToArray();
-
-Item[] GetEvents(string uid)
-    => items.Values.Where(i => i.Parent == uid && i.Type == "Event").ToArray();
-
-Item[] GetInheritedMethods(string uid)
-{
-    if(uid == "System.Object")
-        return Array.Empty<Item>();
-    var item = TryGet(uid);
-    if (item == null || item?.InheritedMembers == null || item?.Inheritance == null || item.Inheritance.Length == 0)
-        return Array.Empty<Item>();
-    if(item.Inheritance.Last() == "System.Object")
-        return Array.Empty<Item>();
-    var baseClass = TryGet(item.Inheritance.Last());
-    if (baseClass == null)
-        return Array.Empty<Item>();
-    var results = TryGetAll(baseClass.Children).Where(x => x.Type == "Method").ToArray();
-    return results;
-}
-
-Item[] GetInheritedProperties(string uid)
-{
-    if(uid == "System.Object")
-        return Array.Empty<Item>();
-    var item = TryGet(uid);
-    if (item == null || item?.InheritedMembers == null || item?.Inheritance == null || item.Inheritance.Length == 0)
-        return Array.Empty<Item>();
-    if(item.Inheritance.Last() == "System.Object")
-        return Array.Empty<Item>();
-    var baseClass = TryGet(item.Inheritance.Last());
-    if (baseClass == null)
-        return Array.Empty<Item>();
-    var results = TryGetAll(baseClass.Children).Where(x => x.Type == "Property").ToArray();
-    return results;
-}
-
-Item? TryGet(string uid)
-{
-    return items.ContainsKey(uid) ? items[uid] : null;
-}
-
-Item[] TryGetAll(string[] uids)
-{
-    var result = new List<Item>();
-    foreach (var uid in uids)
-    {
-        var item = TryGet(uid);
-        if (item != null)
-            result.Add(item);
-    }
-
-    return result.ToArray();
-}
-
 string Link(string uid, bool nameOnly = false, bool indexLink = false)
 {
-    var reference = TryGet(uid);
+    var reference = items.TryGet(uid);
     if (uid.Contains('{') && reference == null)
     {
         // try to resolve single type argument references
         var replaced = uid.Replace(uid[uid.IndexOf('{')..(uid.LastIndexOf('}') + 1)], "`1");
-        reference = TryGet(replaced);
+        reference = items.TryGet(replaced);
     }
     if (reference == null)
         // todo: try to resolve to msdn links if System namespace maybe
@@ -154,7 +91,7 @@ string Link(string uid, bool nameOnly = false, bool indexLink = false)
         return $"[{HtmlEscape(name)}]({FileEscape($"{dots}{reference.Name}/{reference.Name}{extension}")})";
     else
     {
-        var parent = TryGet(reference.Parent);
+        var parent = items.TryGet(reference.Parent);
         if (parent == null)
             return $"`{uid.Replace('{', '<').Replace('}', '>')}`";
         return
@@ -277,7 +214,7 @@ await Parallel.ForEachAsync(items, async (kvp, _) =>
         str.AppendLine($"###### **Assembly**: {item.Assemblies[0]}.dll");
         Declaration(str, item);
         // Properties
-        var properties = GetProperties(item.Uid);
+        var properties = items.GetProperties(item.Uid);
         if (properties.Length != 0)
         {
             str.AppendLine("## Properties");
@@ -292,7 +229,7 @@ await Parallel.ForEachAsync(items, async (kvp, _) =>
         // Inherited Properties
         try
         {
-            var inheritedProperties = GetInheritedProperties(item.Uid);
+            var inheritedProperties = items.GetInheritedProperties(item.Uid);
             if (inheritedProperties.Length > 0)
             {
                 str.AppendLine("## Inherited Properties");
@@ -312,7 +249,7 @@ await Parallel.ForEachAsync(items, async (kvp, _) =>
         
         
         // Fields
-        var fields = GetFields(item.Uid);
+        var fields = items.GetFields(item.Uid);
         if (fields.Length != 0)
         {
             str.AppendLine("## Fields");
@@ -325,7 +262,7 @@ await Parallel.ForEachAsync(items, async (kvp, _) =>
         }
 
         // Methods
-        var methods = GetMethods(item.Uid);
+        var methods = items.GetMethods(item.Uid);
         if (methods.Length != 0)
         {
             str.AppendLine("## Methods");
@@ -336,7 +273,7 @@ await Parallel.ForEachAsync(items, async (kvp, _) =>
             }
         }
 
-        var inheritedMethods = GetInheritedMethods(item.Uid);
+        var inheritedMethods = items.GetInheritedMethods(item.Uid);
         if (inheritedMethods.Length > 0)
         {
             str.AppendLine("## Inherited Methods");
@@ -347,7 +284,7 @@ await Parallel.ForEachAsync(items, async (kvp, _) =>
         }
 
         // Events
-        var events = GetEvents(item.Uid);
+        var events = items.GetEvents(item.Uid);
         if (events.Length != 0)
         {
             str.AppendLine("## Events");
