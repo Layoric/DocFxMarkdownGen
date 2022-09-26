@@ -79,7 +79,7 @@ await Parallel.ForEachAsync(items, async (kvp, _) =>
             // todo: run a regex replace to get rid of hyperlinks and inline code blocks?
             str.AppendLine($"description: \"{items.GetSummary(item.Summary)?.Trim().Replace("\"", "\\\"")}\"");
         str.AppendLine("---");
-        str.AppendLine($"# {item.Type} {item.Name.HtmlEscape()}");
+        str.AppendLine($"# {item.Type} {items.Link(item.Uid, true).HtmlEscape()}");
         str.AppendLine(items.GetSummary(item.Summary)?.Trim());
         str.AppendLine();
         str.AppendLine($"###### **Assembly**: {item.Assemblies[0]}.dll");
