@@ -81,7 +81,7 @@ public static class MarkdownWritingExtensions
     static Regex linkRegex = new("<a href=\"(.+?)\">(.+?)</a>", RegexOptions.Compiled);
 
     public static string Link(this Dictionary<string, Item> items, string uid, bool nameOnly = false,
-        bool indexLink = false)
+        bool indexLink = false, Config? config = null)
     {
         var reference = items.TryGet(uid);
         if (uid.Contains('{') && reference == null)
@@ -97,10 +97,15 @@ public static class MarkdownWritingExtensions
         var name = nameOnly ? reference.Name : reference.FullName;
         var dots = indexLink ? "./" : "../";
         var extension = indexLink ? ".md" : "";
+        var refNameOutput = name.HtmlEscape();
+        if (config?.UseIconify == true)
+        {
+            refNameOutput = reference.WithIconifyHeading("");
+        }
         if (reference.Type is "Class" or "Interface" or "Enum" or "Struct" or "Delegate")
-            return $"[{reference.WithIconifyHeading("")}]({FileEscape($"{dots}{reference.Namespace}/{reference.Name}{extension}")})";
+            return $"[{refNameOutput}]({FileEscape($"{dots}{reference.Namespace}/{reference.Name}{extension}")})";
         else if (reference.Type is "Namespace")
-            return $"[{HtmlEscape(name)}]({FileEscape($"{dots}{reference.Name}/{reference.Name}{extension}")})";
+            return $"[{refNameOutput}]({FileEscape($"{dots}{reference.Name}/{reference.Name}{extension}")})";
         else
         {
             var parent = items.TryGet(reference.Parent);
@@ -142,6 +147,9 @@ public static class MarkdownWritingExtensions
                 break;
             case "Interface":
                 result += $"<Icon icon=\"codicon:symbol-interface\" className=\"symbol-interface\" /> {item.Name.HtmlEscape()}";
+                break;
+            case "Namespace":
+                result += $"<Icon icon=\"codicon:symbol-namespace\" className=\"symbol-namespace\" /> {item.FullName.HtmlEscape()}";
                 break;
             default:
                 result += $"<Icon icon=\"codicon:symbol-property\" className=\"symbol-property\" /> {item.Name.HtmlEscape()}";

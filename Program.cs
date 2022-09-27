@@ -202,6 +202,11 @@ await Parallel.ForEachAsync(items, async (kvp, _) =>
         str.AppendLine($"sidebar_label: {item.Name.HtmlEscape()}");
         str.AppendLine("sidebar_position: 0");
         str.AppendLine("---");
+        if (config.UseIconify)
+        {
+            str.AppendLine("import { Icon } from '@iconify/react';");
+            str.AppendLine();
+        }
         str.AppendLine($"# Namespace {item.Name.HtmlEscape()}");
 
         void Do(string type, string header)
