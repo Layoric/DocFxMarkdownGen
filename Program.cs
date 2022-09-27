@@ -217,7 +217,7 @@ await Parallel.ForEachAsync(items, async (kvp, _) =>
                 str.AppendLine($"## {header}");
                 foreach (var item1 in @where.OrderBy(i => i.Name))
                 {
-                    str.AppendLine($"### {items.Link(item1.Uid, true)}");
+                    str.AppendLine($"### {items.Link(item1.Uid, config, true)}");
                     str.AppendLine(items.GetSummary(item1.Summary)?.Trim());
                 }
             }

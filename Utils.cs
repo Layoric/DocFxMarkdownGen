@@ -80,8 +80,8 @@ public static class MarkdownWritingExtensions
     static Regex codeRegex = new("<code>(.+?)</code>", RegexOptions.Compiled);
     static Regex linkRegex = new("<a href=\"(.+?)\">(.+?)</a>", RegexOptions.Compiled);
 
-    public static string Link(this Dictionary<string, Item> items, string uid, bool nameOnly = false,
-        bool indexLink = false, Config? config = null)
+    public static string Link(this Dictionary<string, Item> items, string uid, Config? config = null, bool nameOnly = false,
+        bool indexLink = false)
     {
         var reference = items.TryGet(uid);
         if (uid.Contains('{') && reference == null)
