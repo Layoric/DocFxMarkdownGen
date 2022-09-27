@@ -129,7 +129,7 @@ public static class MarkdownWritingExtensions
                 result += $"<Icon icon=\"codicon:symbol-class\" /> {item.Name}";
                 break;
             case "Property":
-                result += $"<Icon icon=\"codicon:file-code\" /> {item.Name}";
+                result += $"<Icon icon=\"codicon:symbol-property\" /> {item.Name}";
                 break;
             case "Method":
                 result += $"<Icon icon=\"codicon:symbol-method\" /> {item.Name.HtmlEscape()}";
