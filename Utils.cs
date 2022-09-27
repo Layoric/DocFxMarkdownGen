@@ -124,7 +124,7 @@ public static class MarkdownWritingExtensions
         {
             var parent = items.TryGet(reference.Parent);
             if (parent == null)
-                return $"`{uid.Replace('{', '<').Replace('}', '>')}`";
+                return $"``{uid.Replace('{', '<').Replace('}', '>')}``";
             return
                 $"[{HtmlEscape(name)}]({FileEscape($"{dots}{reference.Namespace}/{parent.Name}{extension}")}#{reference.Name.ToLower().Replace("(", "").Replace(")", "")})";
         }
