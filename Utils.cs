@@ -98,7 +98,7 @@ public static class MarkdownWritingExtensions
         var dots = indexLink ? "./" : "../";
         var extension = indexLink ? ".md" : "";
         if (reference.Type is "Class" or "Interface" or "Enum" or "Struct" or "Delegate")
-            return $"[{reference.WithIconifyHeading("").HtmlEscape()}]({FileEscape($"{dots}{reference.Namespace}/{reference.Name}{extension}")})";
+            return $"[{reference.WithIconifyHeading("")}]({FileEscape($"{dots}{reference.Namespace}/{reference.Name}{extension}")})";
         else if (reference.Type is "Namespace")
             return $"[{HtmlEscape(name)}]({FileEscape($"{dots}{reference.Name}/{reference.Name}{extension}")})";
         else
