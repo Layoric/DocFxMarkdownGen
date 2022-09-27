@@ -175,7 +175,7 @@ public static class MarkdownWritingExtensions
     public static void MethodSummary(this Dictionary<string, Item> items, StringBuilder str, Item method, Config? config = null)
     {
         if (config?.UseIconify == true)
-            method.WithIconifyHeading();
+            str.AppendLine(method.WithIconifyHeading());
         else
             str.AppendLine($"### {method.Name.HtmlEscape()}");
         str.AppendLine(items.GetSummary(method.Summary)?.Trim());
