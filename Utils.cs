@@ -107,7 +107,7 @@ public static class MarkdownWritingExtensions
 
         if (reference == null)
             // todo: try to resolve to msdn links if System namespace maybe
-            return $"`{uid.Replace('{', '<').Replace('}', '>')}`";
+            return $"``{uid.Replace('{', '<').Replace('}', '>')}``";
         var name = nameOnly ? reference.Name : reference.FullName;
         var dots = indexLink ? "./" : "../";
         var extension = indexLink ? ".md" : "";
