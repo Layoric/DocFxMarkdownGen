@@ -73,7 +73,7 @@ await Parallel.ForEachAsync(items, async (kvp, _) =>
     {
         var str = new StringBuilder();
         str.AppendLine("---");
-        str.AppendLine($"title: \"{item.WithIconifyHeading("")?.Replace("\"","'")}\"");
+        str.AppendLine("title: " + item.Type + " " + item.Name);
         str.AppendLine("sidebar_label: " + item.Name);
         if (item.Summary != null)
             // todo: run a regex replace to get rid of hyperlinks and inline code blocks?
@@ -86,7 +86,7 @@ await Parallel.ForEachAsync(items, async (kvp, _) =>
             str.AppendLine();
         }
         
-        str.AppendLine($"# {item.Type} {item.Name.HtmlEscape()}");
+        str.AppendLine(item.WithIconifyHeading("# "));
         str.AppendLine(items.GetSummary(item.Summary)?.Trim());
         str.AppendLine();
         str.AppendLine($"###### **Assembly**: {item.Assemblies[0]}.dll");
