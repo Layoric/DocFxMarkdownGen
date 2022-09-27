@@ -126,16 +126,16 @@ public static class MarkdownWritingExtensions
         switch (item.Type)
         {
             case "Class":
-                result += $"<Icon icon=\"codicon:symbol-class\" className=\"symbol-class\" /> {item.Name}";
+                result += $"<Icon icon=\"codicon:symbol-class\" className=\"symbol-class\" /> {item.Name.HtmlEscape()}";
                 break;
             case "Property":
-                result += $"<Icon icon=\"codicon:symbol-property\" className=\"symbol-property\" /> {item.Name}";
+                result += $"<Icon icon=\"codicon:symbol-property\" className=\"symbol-property\" /> {item.Name.HtmlEscape()}";
                 break;
             case "Method":
                 result += $"<Icon icon=\"codicon:symbol-method\" className=\"symbol-method\" /> {item.Name.HtmlEscape()}";
                 break;
             default:
-                result += $"<Icon icon=\"codicon:symbol-property\" className=\"symbol-property\" /> {item.Name}";
+                result += $"<Icon icon=\"codicon:symbol-property\" className=\"symbol-property\" /> {item.Name.HtmlEscape()}";
                 break;
         }
 
