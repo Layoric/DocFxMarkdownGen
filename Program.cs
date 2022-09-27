@@ -80,8 +80,12 @@ await Parallel.ForEachAsync(items, async (kvp, _) =>
             str.AppendLine($"description: \"{items.GetSummary(item.Summary)?.Trim().Replace("\"", "\\\"")}\"");
         str.AppendLine("---");
         str.AppendLine();
-        if(config.UseIconify)
+        if (config.UseIconify)
+        {
             str.AppendLine("import { Icon } from '@iconify/react';");
+            str.AppendLine();
+        }
+        
         str.AppendLine($"# {item.Type} {item.Name.HtmlEscape()}");
         str.AppendLine(items.GetSummary(item.Summary)?.Trim());
         str.AppendLine();
