@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.VisualBasic.CompilerServices;
+using ServiceStack;
 
 namespace DocFxMarkdownGen;
 
@@ -80,6 +81,19 @@ public static class MarkdownWritingExtensions
     static Regex codeRegex = new("<code>(.+?)</code>", RegexOptions.Compiled);
     static Regex linkRegex = new("<a href=\"(.+?)\">(.+?)</a>", RegexOptions.Compiled);
 
+    private static List<string> csharpKeywords = new()
+    {
+        "class",
+        "where"
+    };
+    
+    public static string CSharpEscape(this string str)
+    {
+        if (!str.Contains("@") && str.ContainsAny(csharpKeywords.ToArray()))
+            return $"@{str}";
+        return str;
+    }
+    
     public static string Link(this Dictionary<string, Item> items, string uid, Config? config = null, bool nameOnly = false,
         bool indexLink = false)
     {
@@ -186,7 +200,7 @@ public static class MarkdownWritingExtensions
     {
         str.AppendLine(SourceLink(item));
         str.AppendLine("```csharp title=\"Declaration\"");
-        str.AppendLine(item.Syntax.Content);
+        str.AppendLine(item.Syntax.Content.CSharpEscape());
         str.AppendLine("```");
     }
 
