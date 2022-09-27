@@ -123,18 +123,19 @@ public static class MarkdownWritingExtensions
         var result = "### ";
         if (item == null)
             return result;
-        switch (item?.Type)
+        switch (item.Type)
         {
             case "Class":
-                result += $"<Icon icon=\"codicon:symbol-class\" class=\"symbol-class\" /> {item.Name}";
+                result += $"<Icon icon=\"codicon:symbol-class\" className=\"symbol-class\" /> {item.Name}";
                 break;
             case "Property":
-                result += $"<Icon icon=\"codicon:symbol-property\" class=\"symbol-property\" /> {item.Name}";
+                result += $"<Icon icon=\"codicon:symbol-property\" className=\"symbol-property\" /> {item.Name}";
                 break;
             case "Method":
-                result += $"<Icon icon=\"codicon:symbol-method\" class=\"symbol-method\" /> {item.Name.HtmlEscape()}";
+                result += $"<Icon icon=\"codicon:symbol-method\" className=\"symbol-method\" /> {item.Name.HtmlEscape()}";
                 break;
             default:
+                result += $"<Icon icon=\"codicon:symbol-property\" className=\"symbol-property\" /> {item.Name}";
                 break;
         }
 
