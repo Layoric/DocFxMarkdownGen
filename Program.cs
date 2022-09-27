@@ -145,7 +145,7 @@ await Parallel.ForEachAsync(items, async (kvp, _) =>
             foreach (var method in methods)
             {
                 /// write method details
-                items.MethodSummary(str, method);
+                items.MethodSummary(str, method, config);
             }
         }
 
@@ -155,7 +155,7 @@ await Parallel.ForEachAsync(items, async (kvp, _) =>
             str.AppendLine("## Inherited Methods");
             foreach (var inheritedMethod in inheritedMethods)
             {
-                items.MethodSummary(str, inheritedMethod);
+                items.MethodSummary(str, inheritedMethod, config);
             }
         }
 
