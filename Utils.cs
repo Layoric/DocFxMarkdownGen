@@ -150,6 +150,9 @@ public static class MarkdownWritingExtensions
             case "Property":
                 result += $"<Icon icon=\"codicon:symbol-property\" className=\"symbol-property\" /> {item.Name.HtmlEscape()}";
                 break;
+            case "Field":
+                result += $"<Icon icon=\"codicon:symbol-field\" className=\"symbol-field\" /> {item.Name.HtmlEscape()}";
+                break;
             case "Method":
                 result += $"<Icon icon=\"codicon:symbol-method\" className=\"symbol-method\" /> {item.Name.HtmlEscape()}";
                 break;
