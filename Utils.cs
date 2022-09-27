@@ -200,7 +200,7 @@ public static class MarkdownWritingExtensions
     {
         str.AppendLine(SourceLink(item));
         str.AppendLine("```csharp title=\"Declaration\"");
-        str.AppendLine(item.Syntax.Content.CSharpEscape());
+        str.AppendLine(item.Syntax.Content);
         str.AppendLine("```");
     }
 
