@@ -91,4 +91,5 @@ public class Config
     public string YamlPath { get; set; }
     public string OutputPath { get; set; }
     public string IndexSlug { get; set; }
+    public bool UseIconify { get; set; }
 }

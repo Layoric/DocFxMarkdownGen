@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace DocFxMarkdownGen;
 
@@ -109,6 +110,7 @@ public static class MarkdownWritingExtensions
                 $"[{HtmlEscape(name)}]({FileEscape($"{dots}{reference.Namespace}/{parent.Name}{extension}")}#{reference.Name.ToLower().Replace("(", "").Replace(")", "")})";
         }
     }
+    
 
     public static string? HtmlEscape(this string? str)
         => str?.Replace("<", "&lt;")?.Replace(">", "&gt;");
@@ -116,6 +118,29 @@ public static class MarkdownWritingExtensions
     public static string? FileEscape(this string? str)
         => str?.Replace("<", "`")?.Replace(">", "`");
 
+    public static string? WithIconifyHeading(this Item? item)
+    {
+        var result = "### ";
+        if (item == null)
+            return result;
+        switch (item?.Type)
+        {
+            case "Class":
+                result += $"<Icon icon=\"codicon:symbol-class\" /> {item.Name}";
+                break;
+            case "Property":
+                result += $"<Icon icon=\"codicon:file-code\" /> {item.Name}";
+                break;
+            case "Method":
+                result += $"<Icon icon=\"codicon:symbol-method\" /> {item.Name.HtmlEscape()}";
+                break;
+            default:
+                break;
+        }
+
+        return result;
+    }
+    
     public static string? GetSummary(this Dictionary<string, Item> items, string? summary)
     {
         if (summary == null)
@@ -147,9 +172,12 @@ public static class MarkdownWritingExtensions
         str.AppendLine("```");
     }
 
-    public static void MethodSummary(this Dictionary<string, Item> items, StringBuilder str, Item method)
+    public static void MethodSummary(this Dictionary<string, Item> items, StringBuilder str, Item method, Config? config = null)
     {
-        str.AppendLine($"### {method.Name.HtmlEscape()}");
+        if (config?.UseIconify == true)
+            method.WithIconifyHeading();
+        else
+            str.AppendLine($"### {method.Name.HtmlEscape()}");
         str.AppendLine(items.GetSummary(method.Summary)?.Trim());
         Declaration(str, method);
         if (!string.IsNullOrWhiteSpace(method.Syntax.Return?.Type))
