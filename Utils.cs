@@ -118,9 +118,9 @@ public static class MarkdownWritingExtensions
     public static string? FileEscape(this string? str)
         => str?.Replace("<", "`")?.Replace(">", "`");
 
-    public static string? WithIconifyHeading(this Item? item)
+    public static string? WithIconifyHeading(this Item? item, string headingPrefix = "### ")
     {
-        var result = "### ";
+        var result = headingPrefix;
         if (item == null)
             return result;
         switch (item.Type)
