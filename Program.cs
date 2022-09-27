@@ -131,7 +131,7 @@ await Parallel.ForEachAsync(items, async (kvp, _) =>
             str.AppendLine("## Fields");
             foreach (var field in fields)
             {
-                str.AppendLine($"### {field.Name}");
+                str.AppendLine(config.UseIconify ? field.WithIconifyHeading() : $"### {field.Name}");
                 str.AppendLine(items.GetSummary(field.Summary)?.Trim());
                 MarkdownWritingExtensions.Declaration(str, field);
             }
