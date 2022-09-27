@@ -87,7 +87,7 @@ await Parallel.ForEachAsync(items, async (kvp, _) =>
         }
         
         str.AppendLine(item.WithIconifyHeading("# "));
-        str.AppendLine(items.GetSummary(item.Summary)?.Trim());
+        str.AppendLine(items.GetSummary(item.Summary, false)?.Trim());
         str.AppendLine();
         str.AppendLine($"###### **Assembly**: {item.Assemblies[0]}.dll");
         MarkdownWritingExtensions.Declaration(str, item);

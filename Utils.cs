@@ -176,7 +176,7 @@ public static class MarkdownWritingExtensions
         return result;
     }
     
-    public static string? GetSummary(this Dictionary<string, Item> items, string? summary)
+    public static string? GetSummary(this Dictionary<string, Item> items, string? summary, bool htmlEscape = true)
     {
         if (summary == null)
             return null;
@@ -189,7 +189,7 @@ public static class MarkdownWritingExtensions
         summary = codeRegex.Replace(summary, match => $"`{match.Groups[1].Value}`");
         summary = linkRegex.Replace(summary, match => $"[{match.Groups[2].Value}]({match.Groups[1].Value})");
 
-        return summary.HtmlEscape();
+        return htmlEscape ? summary : summary.HtmlEscape();
     }
 
 
