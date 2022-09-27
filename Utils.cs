@@ -134,6 +134,15 @@ public static class MarkdownWritingExtensions
             case "Method":
                 result += $"<Icon icon=\"codicon:symbol-method\" className=\"symbol-method\" /> {item.Name.HtmlEscape()}";
                 break;
+            case "Enum":
+                result += $"<Icon icon=\"codicon:symbol-enum\" className=\"symbol-enum\" /> {item.Name.HtmlEscape()}";
+                break;
+            case "Struct":
+                result += $"<Icon icon=\"codicon:symbol-structure\" className=\"symbol-structure\" /> {item.Name.HtmlEscape()}";
+                break;
+            case "Interface":
+                result += $"<Icon icon=\"codicon:symbol-interface\" className=\"symbol-interface\" /> {item.Name.HtmlEscape()}";
+                break;
             default:
                 result += $"<Icon icon=\"codicon:symbol-property\" className=\"symbol-property\" /> {item.Name.HtmlEscape()}";
                 break;
