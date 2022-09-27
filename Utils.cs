@@ -171,7 +171,7 @@ public static class MarkdownWritingExtensions
     public static string SourceLink(this Item item)
         =>
             item.Source?.Remote?.Repo != null
-                ? $"###### [View Source]({item.Source.Remote.Repo}/blob/{item.Source.Remote.Branch}/{item.Source.Remote.Path}#L{item.Source.StartLine + 1})"
+                ? $"###### [ <Icon icon=\"codicon:github-inverted\" className=\"github-icon\" /> View Source]({item.Source.Remote.Repo}/blob/{item.Source.Remote.Branch}/{item.Source.Remote.Path}#L{item.Source.StartLine + 1})"
                 : "";
 
     public static void Declaration(StringBuilder str, Item item)
