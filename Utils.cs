@@ -189,7 +189,7 @@ public static class MarkdownWritingExtensions
         summary = codeRegex.Replace(summary, match => $"`{match.Groups[1].Value}`");
         summary = linkRegex.Replace(summary, match => $"[{match.Groups[2].Value}]({match.Groups[1].Value})");
 
-        return htmlEscape ? summary : summary.HtmlEscape();
+        return htmlEscape ? summary.HtmlEscape() : summary;
     }
 
 
